@@ -20,6 +20,7 @@
     "react-dom": "^19.2.7"
   },
   "devDependencies": {
+    "@gravity-ui/icons": "^2.18.0",
     "@tailwindcss/postcss": "^4",
     "@types/node": "25.9.3",
     "@types/react": "19.2.17",
