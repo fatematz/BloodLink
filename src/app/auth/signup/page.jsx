@@ -1,6 +1,8 @@
 "use client";
 
 import React, { useState, useRef } from "react";
+import { useRouter } from "next/navigation";
+import { authClient } from "@/lib/auth-client"; 
 import {
   ChevronLeft,
   ChevronDown,
@@ -9,18 +11,14 @@ import {
   EyeOff,
   Loader2,
   CheckCircle2,
-  X,
 } from "lucide-react";
 import Link from "next/link";
-// import { platform } from "node:os";
 
-/* ───────────────────────── Theme tokens (from the design) ───────────────────────── */
 const RED = "#E0173C";
 const RED_DARK = "#C20E32";
 const MINT = "#C20E32";
 
 const IMGBB_API_KEY = process.env.NEXT_PUBLIC_IMAGE_API;
-
 const BLOOD_GROUPS = ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"];
 
 const LOCATIONS = {
@@ -35,6 +33,7 @@ const LOCATIONS = {
 };
 
 const SignUp = () => {
+  const router = useRouter();
   const [form, setForm] = useState({
     name: "",
     email: "",
@@ -51,18 +50,18 @@ const SignUp = () => {
   const [showPass, setShowPass] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
   const [errors, setErrors] = useState({});
+  const [isLoading, setIsLoading] = useState(false); 
   const [submitted, setSubmitted] = useState(null);
   const fileRef = useRef(null);
 
   const set = (key, value) => setForm((f) => ({ ...f, [key]: value }));
 
-  /* district change → reset upazila */
   const onDistrict = (value) => setForm((f) => ({ ...f, district: value, upazila: "" }));
 
   const handleAvatar = async (e) => {
     const file = e.target.files?.[0];
     if (!file) return;
-    setAvatarPreview(URL.createObjectURL(file)); // instant local preview
+    setAvatarPreview(URL.createObjectURL(file));
     setErrors((x) => ({ ...x, avatar: undefined }));
     setUploading(true);
     try {
@@ -86,7 +85,6 @@ const SignUp = () => {
     if (!form.name.trim()) e.name = "Name is required";
     if (!form.email.trim()) e.email = "Email is required";
     else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) e.email = "Enter a valid email";
-    // if (!avatarPreview) e.avatar = "Please add a photo";
     if (!form.bloodGroup) e.bloodGroup = "Select a blood group";
     if (!form.district) e.district = "Select a district";
     if (!form.upazila) e.upazila = "Select an upazila";
@@ -97,42 +95,48 @@ const SignUp = () => {
     return e;
   };
 
-const handleSubmit = async () => {
+  const handleSubmit = async () => {
     const e = validate();
     setErrors(e);
     if (Object.keys(e).length) return;
 
-    const payload = {
-      name: form.name.trim(),
-      email: form.email.trim(),
-      avatar: avatarUrl,
-      bloodGroup: form.bloodGroup,
-      district: form.district,
-      upazila: form.upazila,
-      password: form.password,
-      confirmPassword: form.confirmPassword,  
-      role: "donor",
-      status: "active",
-    };
-
-    console.log(payload);
+    setIsLoading(true);
 
     try {
-      const res = await fetch("http://localhost:5000/users", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
+      const { data, error: authError } = await authClient.signUp.email({
+        email: form.email.trim(),
+        password: form.password,
+        name: form.name.trim(),
+        image: avatarUrl || "", 
+        
+        bloodGroup: form.bloodGroup,
+        district: form.district,
+        upazila: form.upazila,
+        role: "donor",
+        status: "active",
       });
-      const data = await res.json();
 
-      if (!res.ok) {
-        setErrors({ email: data.message || "Something went wrong" });
+      if (authError) {
+        setErrors({ email: authError.message || "Registration failed." });
         return;
       }
-      setSubmitted(payload);   
+
+      if (data) {
+        setSubmitted({
+          name: form.name.trim(),
+          email: form.email.trim(),
+          bloodGroup: form.bloodGroup,
+          district: form.district,
+          upazila: form.upazila,
+          role: "donor",
+          status: "active",
+        });
+      }
     } catch (err) {
       console.error(err);
-      setErrors({ email: "Network error, try again" });
+      setErrors({ email: "Something went wrong. Please try again." });
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -152,14 +156,12 @@ const handleSubmit = async () => {
       className="min-h-screen w-full flex items-center justify-center p-4 pt-28"
       style={{ background: "#F4F6F9", fontFamily: "system-ui, -apple-system, Segoe UI, Roboto, sans-serif" }}
     >
-      {/* focus + placeholder styling scoped to this form */}
       <style>{`
         .bd-field:focus { outline:none; border-color:${RED} !important; box-shadow:0 0 0 3px rgba(224,23,60,0.12); }
         .bd-field::placeholder { color:#9CA3AF; }
         .bd-btn-shadow { box-shadow:0 10px 22px -8px rgba(224,23,60,0.65); }
       `}</style>
 
-      {/* centered card — same on mobile & desktop, just a box in the middle */}
       <div className="w-full max-w-[680px] bg-white rounded-3xl shadow-xl overflow-hidden my-6">
         {/* ── red header ── */}
         <div style={{ background: `linear-gradient(140deg, ${RED} 0%, ${RED_DARK} 100%)` }} className="px-6 pt-6 pb-1">
@@ -168,9 +170,6 @@ const handleSubmit = async () => {
               <ChevronLeft size={24} strokeWidth={2.5} />
             </Link>
             <h1 className="text-white text-[20px] mb-4 font-bold tracking-wide">Create Account</h1>
-            <button className="absolute right-0 text-white/90 hover:text-white active:scale-90 transition" aria-label="Close">
-              
-            </button>
           </div>
         </div>
 
@@ -189,7 +188,7 @@ const handleSubmit = async () => {
               ) : (
                 <Camera size={34} color="#F4F6F9" strokeWidth={1.8} />
               )}
-              {uploading && (
+              {(uploading || isLoading) && (
                 <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
                   <Loader2 size={26} className="text-white animate-spin" />
                 </div>
@@ -197,7 +196,8 @@ const handleSubmit = async () => {
             </div>
             <button
               onClick={() => fileRef.current?.click()}
-              className="absolute bottom-0 right-0 w-9 h-9 rounded-full flex items-center justify-center border-[3px] border-white shadow active:scale-95 transition"
+              disabled={uploading || isLoading}
+              className="absolute bottom-0 right-0 w-9 h-9 rounded-full flex items-center justify-center border-[3px] border-white shadow active:scale-95 transition disabled:opacity-50"
               style={{ background: RED }}
               aria-label="Upload photo"
             >
@@ -217,26 +217,30 @@ const handleSubmit = async () => {
             </p>
 
             <div className="mt-5 text-left bg-gray-50 border border-gray-200 rounded-xl divide-y divide-gray-100">
-              {[    { label: "Name", value: submitted.name },
-    { label: "Email", value: submitted.email },
-    { label: "Blood Group", value: submitted.bloodGroup },
-    { label: "District", value: submitted.district },
-    { label: "Upazila", value: submitted.upazila },
-    { label: "Role", value: submitted.role },
-    { label: "Status", value: submitted.status }, ].map((row) => ( <div key={row.label} className="flex justify-between gap-4 px-4 py-2.5">
-      <span className="text-[13px] font-medium text-gray-500">{row.label}</span>
-      <span className="text-[13px] font-semibold text-gray-800 text-right break-all">
-        {row.value}
-      </span>
-    </div> ))}
+              {[
+                { label: "Name", value: submitted.name },
+                { label: "Email", value: submitted.email },
+                { label: "Blood Group", value: submitted.bloodGroup },
+                { label: "District", value: submitted.district },
+                { label: "Upazila", value: submitted.upazila },
+                { label: "Role", value: submitted.role },
+                { label: "Status", value: submitted.status },
+              ].map((row) => (
+                <div key={row.label} className="flex justify-between gap-4 px-4 py-2.5">
+                  <span className="text-[13px] font-medium text-gray-500">{row.label}</span>
+                  <span className="text-[13px] font-semibold text-gray-800 text-right break-all">
+                    {row.value}
+                  </span>
+                </div>
+              ))}
             </div>
 
             <button
-              onClick={reset}
+              onClick={() => router.push("/")} 
               className="mt-5 w-full text-white font-semibold py-3.5 rounded-xl bd-btn-shadow active:scale-[0.99] transition"
               style={{ background: RED }}
             >
-              Go Back
+              Go to Home
             </button>
           </div>
         ) : (
@@ -252,7 +256,8 @@ const handleSubmit = async () => {
 
             <Field label="Name" error={errors.name}>
               <input
-                className="bd-field w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-[15px] text-gray-700"
+                disabled={isLoading}
+                className="bd-field w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-[15px] text-gray-700 disabled:opacity-60"
                 placeholder="Rhonda Rhodes"
                 value={form.name}
                 onChange={(e) => set("name", e.target.value)}
@@ -262,7 +267,8 @@ const handleSubmit = async () => {
             <Field label="Email" error={errors.email}>
               <input
                 type="email"
-                className="bd-field w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-[15px] text-gray-700"
+                disabled={isLoading}
+                className="bd-field w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-[15px] text-gray-700 disabled:opacity-60"
                 placeholder="rhonda@outlook.com"
                 value={form.email}
                 onChange={(e) => set("email", e.target.value)}
@@ -270,12 +276,12 @@ const handleSubmit = async () => {
             </Field>
 
             <Field label="Blood Group" error={errors.bloodGroup}>
-              <SelectBox value={form.bloodGroup} placeholder="Select blood group" onChange={(v) => set("bloodGroup", v)} options={BLOOD_GROUPS} />
+              <SelectBox disabled={isLoading} value={form.bloodGroup} placeholder="Select blood group" onChange={(v) => set("bloodGroup", v)} options={BLOOD_GROUPS} />
             </Field>
 
             <div className="grid grid-cols-2 gap-3">
               <Field label="District" error={errors.district}>
-                <SelectBox value={form.district} placeholder="District" onChange={onDistrict} options={Object.keys(LOCATIONS)} />
+                <SelectBox disabled={isLoading} value={form.district} placeholder="District" onChange={onDistrict} options={Object.keys(LOCATIONS)} />
               </Field>
               <Field label="Upazila" error={errors.upazila}>
                 <SelectBox
@@ -283,26 +289,27 @@ const handleSubmit = async () => {
                   placeholder={form.district ? "Upazila" : "Pick district"}
                   onChange={(v) => set("upazila", v)}
                   options={upazilas}
-                  disabled={!form.district}
+                  disabled={!form.district || isLoading}
                 />
               </Field>
             </div>
 
             <Field label="Password" error={errors.password}>
-              <PasswordInput value={form.password} onChange={(v) => set("password", v)} show={showPass} toggle={() => setShowPass((s) => !s)} placeholder="••••••••" />
+              <PasswordInput disabled={isLoading} value={form.password} onChange={(v) => set("password", v)} show={showPass} toggle={() => setShowPass((s) => !s)} placeholder="••••••••" />
             </Field>
 
             <Field label="Confirm Password" error={errors.confirmPassword}>
-              <PasswordInput value={form.confirmPassword} onChange={(v) => set("confirmPassword", v)} show={showConfirm} toggle={() => setShowConfirm((s) => !s)} placeholder="••••••••" />
+              <PasswordInput disabled={isLoading} value={form.confirmPassword} onChange={(v) => set("confirmPassword", v)} show={showConfirm} toggle={() => setShowConfirm((s) => !s)} placeholder="••••••••" />
             </Field>
 
             <div>
               <label className="flex items-start gap-2.5 cursor-pointer select-none">
                 <input
                   type="checkbox"
+                  disabled={isLoading}
                   checked={agree}
                   onChange={(e) => setAgree(e.target.checked)}
-                  className="mt-0.5 w-4 h-4 rounded border-gray-300"
+                  className="mt-0.5 w-4 h-4 rounded border-gray-300 disabled:opacity-60"
                   style={{ accentColor: RED }}
                 />
                 <span className="text-[12.5px] text-gray-500 leading-snug">
@@ -316,11 +323,11 @@ const handleSubmit = async () => {
 
             <button
               onClick={handleSubmit}
-              disabled={uploading}
-              className="w-full text-white font-semibold py-3.5 rounded-xl bd-btn-shadow active:scale-[0.99] transition disabled:opacity-60"
+              disabled={uploading || isLoading}
+              className="w-full text-white font-semibold py-3.5 rounded-xl bd-btn-shadow active:scale-[0.99] transition disabled:opacity-60 text-center flex items-center justify-center h-12"
               style={{ background: RED }}
             >
-              {uploading ? "Uploading photo…" : "Sign Up"}
+              {uploading ? "Uploading photo…" : isLoading ? "Creating Account..." : "Sign Up"}
             </button>
           </div>
         )}
@@ -329,7 +336,6 @@ const handleSubmit = async () => {
   );
 };
 
-/* ───────────────────────── small reusable pieces ───────────────────────── */
 const Field = ({ label, error, children }) => (
   <div>
     <label className="block text-[14px] font-semibold text-gray-700 mb-1.5">{label}</label>
@@ -357,19 +363,21 @@ const SelectBox = ({ value, placeholder, onChange, options, disabled }) => (
   </div>
 );
 
-const PasswordInput = ({ value, onChange, show, toggle, placeholder }) => (
+const PasswordInput = ({ value, onChange, show, toggle, placeholder, disabled }) => (
   <div className="relative">
     <input
       type={show ? "text" : "password"}
-      className="bd-field w-full bg-white border border-gray-200 rounded-xl px-4 py-3 pr-11 text-[15px] text-gray-700"
+      disabled={disabled}
+      className="bd-field w-full bg-white border border-gray-200 rounded-xl px-4 py-3 pr-11 text-[15px] text-gray-700 disabled:opacity-60"
       placeholder={placeholder}
       value={value}
       onChange={(e) => onChange(e.target.value)}
     />
     <button
       type="button"
+      disabled={disabled}
       onClick={toggle}
-      className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 active:scale-90 transition"
+      className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 active:scale-90 transition disabled:opacity-50"
       aria-label={show ? "Hide password" : "Show password"}
     >
       {show ? <EyeOff size={18} /> : <Eye size={18} />}
