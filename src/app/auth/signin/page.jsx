@@ -9,8 +9,8 @@ import {
   Droplet,
   Eye,
   EyeOff,
-  CheckCircle2,
 } from "lucide-react";
+import Navbar from "@/app/homepage/navbar";
 
 const RED = "#E0173C";
 const RED_DARK = "#C20E32";
@@ -53,6 +53,23 @@ const Signin = () => {
       if (authError) {
         setErrors({ email: authError.message || "Invalid credentials" });
       } else if (data) {
+        // ── JWT token নাও backend থেকে ──
+        try {
+          const tokenRes = await fetch("http://localhost:5000/api/auth/jwt", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ email: form.email.trim() }),
+          });
+          const tokenData = await tokenRes.json();
+          if (tokenData.token) {
+            localStorage.setItem("token", tokenData.token);
+            document.cookie = `bloodlink_token=${tokenData.token}; path=/; max-age=${604800}`;
+          }
+        } catch (tokenErr) {
+          console.error("JWT fetch failed:", tokenErr);
+        }
+        // ────────────────────────────────
+
         router.push(redirectTo);
       }
     } catch (err) {
@@ -68,6 +85,7 @@ const Signin = () => {
       className="min-h-screen w-full flex items-start justify-center px-4 pb-10 pt-28"
       style={{ background: "#F4F6F9", fontFamily: "system-ui, -apple-system, Segoe UI, Roboto, sans-serif" }}
     >
+      <Navbar />
       <style>{`
         .bd-field:focus { outline:none; border-color:${RED} !important; box-shadow:0 0 0 3px rgba(224,23,60,0.12); }
         .bd-field::placeholder { color:#9CA3AF; }
