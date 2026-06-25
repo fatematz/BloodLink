@@ -3,6 +3,7 @@
 import React, { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { authClient } from "@/lib/auth-client"; 
+import LOCATIONS from "@/lib/locations";
 import {
   ChevronLeft,
   ChevronDown,
@@ -13,6 +14,7 @@ import {
   CheckCircle2,
 } from "lucide-react";
 import Link from "next/link";
+import Navbar from "@/app/homepage/navbar";
 
 const RED = "#E0173C";
 const RED_DARK = "#C20E32";
@@ -21,16 +23,6 @@ const MINT = "#C20E32";
 const IMGBB_API_KEY = process.env.NEXT_PUBLIC_IMAGE_API;
 const BLOOD_GROUPS = ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"];
 
-const LOCATIONS = {
-  Joypurhat: ["Joypurhat Sadar", "Akkelpur", "Kalai", "Khetlal", "Panchbibi"],
-  Bogura: ["Bogura Sadar", "Adamdighi", "Dhunat", "Gabtali", "Kahaloo", "Sherpur", "Shibganj"],
-  Dhaka: ["Dhamrai", "Dohar", "Keraniganj", "Nawabganj", "Savar"],
-  Rajshahi: ["Bagha", "Bagmara", "Charghat", "Godagari", "Paba", "Puthia", "Tanore"],
-  Chattogram: ["Anwara", "Boalkhali", "Hathazari", "Patiya", "Rangunia", "Raozan", "Sitakunda"],
-  Sylhet: ["Sylhet Sadar", "Beanibazar", "Bishwanath", "Golapganj", "Gowainghat", "Zakiganj"],
-  Khulna: ["Khulna Sadar", "Batiaghata", "Dumuria", "Dighalia", "Paikgachha", "Rupsha"],
-  Rangpur: ["Rangpur Sadar", "Badarganj", "Gangachhara", "Kaunia", "Mithapukur", "Pirganj"],
-};
 
 const SignUp = () => {
   const router = useRouter();
@@ -156,6 +148,7 @@ const SignUp = () => {
       className="min-h-screen w-full flex items-center justify-center p-4 pt-28"
       style={{ background: "#F4F6F9", fontFamily: "system-ui, -apple-system, Segoe UI, Roboto, sans-serif" }}
     >
+      <Navbar />
       <style>{`
         .bd-field:focus { outline:none; border-color:${RED} !important; box-shadow:0 0 0 3px rgba(224,23,60,0.12); }
         .bd-field::placeholder { color:#9CA3AF; }
