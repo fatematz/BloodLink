@@ -55,7 +55,7 @@ const DashboardSidebar = ({ role = "donor" }) => {
           style={{ background: `linear-gradient(140deg, ${RED}, ${RED_DARK})` }}>
           <Droplet size={20} className="text-white" fill="white" strokeWidth={1.5} />
         </span>
-        <span className="text-[18px] font-extrabold text-white">BloodLink</span>
+        <span className="text-[18px] font-extrabold text-[#C20E32]">BloodLink</span>
       </Link>
 
       <div className="px-5 mb-5">

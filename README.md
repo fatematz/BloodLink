@@ -64,7 +64,6 @@ Key Features
 ### Backend
 - **Express.js** — Node.js web framework
 - **MongoDB** — Database with MongoDB Atlas
-- **Mongoose / MongoDB Driver** — Database ORM
 - **jsonwebtoken (JWT)** — Token-based authentication
 - **dotenv** — Environment variable management
 - **cors** — Cross-origin resource sharing
