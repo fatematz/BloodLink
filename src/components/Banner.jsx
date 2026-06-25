@@ -3,12 +3,16 @@ import Link from "next/link";
 import { Droplet, UserPlus, Search } from "lucide-react";
 import BannerImg from "@/images/banner2.jpg";
 import Image from "next/image";
+import { userinfo } from "@/lib/core/userinfo";
 
 const RED = "#E0173C";
 const RED_DARK = "#C20E32";
 
 /* Homepage hero banner */
-const Banner = () => {
+const Banner = async () => {
+
+  const user = await userinfo();
+
   return (
     <section className="w-full  pt-20 md:pt-44 pb-6 bg-[#F4F6F9]">
       <div
@@ -59,15 +63,16 @@ const Banner = () => {
 
             <div className="mt-8 flex flex-wrap gap-4">
               <Link
-                href="/auth/signup"
-                className="inline-flex items-center gap-2 text-[15px] font-semibold text-white px-6 py-3.5 rounded-full transition active:scale-[0.98]"
-                style={{
-                  background: RED,
-                  boxShadow: "0 12px 26px -10px rgba(224,23,60,0.8)",
-                }}
-              >
-                <UserPlus size={18} /> Join as a Donor
-              </Link>
+          href={user ? "/dashboard" : "/auth/signup"}
+          className="inline-flex items-center gap-2 text-[15px] font-semibold text-white px-6 py-3.5 rounded-full transition active:scale-[0.98]"
+          style={{
+            background: RED,
+            boxShadow: "0 12px 26px -10px rgba(224,23,60,0.8)",
+          }}
+        >
+          <UserPlus size={18} /> 
+          {user ? "Go to Dashboard" : "Join as a Donor"}
+        </Link>
               <Link
                 href="/search-donors"
                 className="inline-flex items-center gap-2 text-[15px] font-semibold text-white px-6 py-3.5 rounded-full border border-white/30 hover:bg-white/10 transition active:scale-[0.98]"

@@ -3,18 +3,7 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { 
-  Droplet, 
-  LogOut, 
-  Menu, 
-  X, 
-  LayoutDashboard, 
-  User, 
-  PlusCircle, 
-  GitPullRequest, 
-  Users, 
-  HeartHandshake 
-} from "lucide-react";
+import { Droplet, LogOut, Menu, X, LayoutDashboard, User, PlusCircle, GitPullRequest, Users } from "lucide-react";
 import { authClient } from "@/lib/auth-client";
 
 const RED = "#E0173C";
@@ -27,8 +16,8 @@ const DashboardSidebar = ({ role = "donor" }) => {
   const router = useRouter();
 
   const logout = async () => {
-    try { 
-      await authClient.signOut(); 
+    try {
+      await authClient.signOut();
       router.push("/auth/signin");
     } catch (e) {
       console.error("Logout failed:", e);
@@ -43,21 +32,21 @@ const DashboardSidebar = ({ role = "donor" }) => {
       { name: "Create Request", href: "/dashboard/createdonationrequest", icon: PlusCircle },
     ],
     volunteer: [
-      { name: "Dashboard Home", href: "/dashboard", icon: LayoutDashboard },
+      { name: "Dashboard Home", href: "/dashboard/admin-home", icon: LayoutDashboard },
       { name: "Profile", href: "/dashboard/profile", icon: User },
-      { name: "All Donation Requests", href: "/dashboard/all-blood-donation-request", icon: GitPullRequest },
+      { name: "All Donation Requests", href: "/dashboard/ManageDonationRequests", icon: GitPullRequest },
     ],
     admin: [
-      { name: "Dashboard Home", href: "/dashboard", icon: LayoutDashboard },
+      { name: "Dashboard Home", href: "/dashboard/admin-home", icon: LayoutDashboard },
       { name: "Profile", href: "/dashboard/profile", icon: User },
       { name: "All Users", href: "/dashboard/all-users", icon: Users },
-      { name: "All Donation Requests", href: "/dashboard/all-blood-donation-request", icon: GitPullRequest },
+      { name: "All Donation Requests", href: "/dashboard/ManageDonationRequests", icon: GitPullRequest },
     ],
   };
 
   const currentLinks = links[role] || links["donor"];
 
-  const Body = (
+  const renderLinks = (onClose) => (
     <div className="flex flex-col h-full">
       <Link href="/" className="flex items-center gap-2 px-5 py-5">
         <span className="w-9 h-9 rounded-xl flex items-center justify-center"
@@ -79,30 +68,20 @@ const DashboardSidebar = ({ role = "donor" }) => {
           const Icon = link.icon;
           const isActive = pathname === link.href;
           return (
-            <Link
-              key={link.href}
-              href={link.href}
-              onClick={() => setOpen(false)}
+            <Link key={link.href} href={link.href} onClick={onClose}
               className={`flex items-center gap-3 px-4 py-3 rounded-xl text-[14px] font-medium transition duration-200 ${
-                isActive 
-                  ? "text-white bg-white/10 shadow-sm" 
-                  : "text-white/70 hover:text-white hover:bg-white/5"
-              }`}
-            >
+                isActive ? "text-white bg-white/10 shadow-sm" : "text-white/70 hover:text-white hover:bg-white/5"
+              }`}>
               <Icon size={18} className={isActive ? "text-white" : "text-white/60"} />
               {link.name}
             </Link>
           );
         })}
-      </nav>
-
-      <div className="px-3 pb-5">
         <button onClick={logout}
-          className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-[14px] font-medium text-white/90 hover:text-white transition duration-200 hover:bg-white/10"
-          style={{ background: "rgba(255,255,255,0.05)" }}>
+          className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-[14px] font-medium text-white/70 hover:text-white hover:bg-white/5 transition duration-200">
           <LogOut size={18} className="text-white/60" /> Logout
         </button>
-      </div>
+      </nav>
     </div>
   );
 
@@ -114,22 +93,26 @@ const DashboardSidebar = ({ role = "donor" }) => {
           <Droplet size={20} className="text-white" fill="white" />
           <span className="text-white font-bold">BloodLink</span>
         </Link>
-        <button onClick={() => setOpen(true)} className="text-white" aria-label="Open menu"><Menu size={24} /></button>
+        <button onClick={() => setOpen(true)} className="text-white" aria-label="Open menu">
+          <Menu size={24} />
+        </button>
       </div>
 
       {/* Desktop Sidebar */}
-      <aside className="hidden lg:block w-64 shrink-0 min-h-screen sticky top-0 self-start" style={{ background: NAVY }}>
-        {Body}
+      <aside className="hidden lg:flex lg:flex-col w-64 shrink-0 min-h-screen sticky top-0 self-start" style={{ background: NAVY }}>
+        {renderLinks(() => {})}
       </aside>
 
       {/* Mobile Drawer */}
       {open && (
         <div className="lg:hidden fixed inset-0 z-50 flex">
-          <div className="w-64 min-h-screen shadow-2xl" style={{ background: NAVY }}>
+          <div className="w-64 h-full overflow-y-auto shadow-2xl flex flex-col" style={{ background: NAVY }}>
             <div className="flex justify-end p-4">
-              <button onClick={() => setOpen(false)} className="text-white" aria-label="Close menu"><X size={24} /></button>
+              <button onClick={() => setOpen(false)} className="text-white" aria-label="Close menu">
+                <X size={24} />
+              </button>
             </div>
-            {Body}
+            {renderLinks(() => setOpen(false))}
           </div>
           <div className="flex-1 bg-black/50 backdrop-blur-sm" onClick={() => setOpen(false)} />
         </div>

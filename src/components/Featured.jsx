@@ -7,11 +7,18 @@ import imgFeatured4 from "@/images/f4.jpg"
 import imgFeatured5 from "@/images/f5.jpg"
 import Image from "next/image";
 
+
 const RED = "#E0173C";
 const RED_DARK = "#C20E32";
 const NAVY = "#0E1E45";
 
-const Featured = () => {
+
+
+
+const  Featured = async () => {
+
+
+
   return (
     <section className="w-full bg-[#F4F6F9] py-16 px-4 md:px-0">
       <div className="max-w-7xl mx-auto">
@@ -71,7 +78,7 @@ const Featured = () => {
             </div>
           </div>
 
-          <duv className="lg:col-span-4 relative group rounded-[2rem] overflow-hidden min-h-[400px] bg-gray-200 block transition duration-300 hover:-translate-y-1">
+          <div className="lg:col-span-4 relative group rounded-[2rem] overflow-hidden min-h-[400px] bg-gray-200 block transition duration-300 hover:-translate-y-1">
             <Image src={imgFeatured} alt="img"
               className="absolute inset-0 bg-cover bg-center transition duration-500 group-hover:scale-105"
               
@@ -89,7 +96,7 @@ const Featured = () => {
                 </div>
               </div>
             </div>
-          </duv>
+          </div>
 
           <div className="lg:col-span-4 flex flex-col gap-6">
             <div  className="relative group rounded-[2rem] overflow-hidden flex-1 min-h-[188px] bg-gray-200 block transition duration-300 hover:-translate-y-1">
