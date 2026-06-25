@@ -30,7 +30,7 @@ const ContactUs = () => {
 //   };
 
   return (
-    <section className="w-full px-4 md:px-0 py-16" style={{ background: "#F4F6F9" }}>
+    <section className="w-full px-4 md:px-4 lg:px-0  md:pt-10  pt-15 md:pt-30 pb-10 md:pb-30 " style={{ background: "#F4F6F9" }}>
       <style>{`
         .bd-field:focus { outline:none; border-color:${RED} !important; box-shadow:0 0 0 3px rgba(224,23,60,0.12); }
         .bd-field::placeholder { color:#9CA3AF; }
@@ -38,10 +38,16 @@ const ContactUs = () => {
       `}</style>
 
       <div className="max-w-7xl mx-auto">
-        <div className="text-center mb-10">
+        <div className="text-center mb-10 md:mb-20">
           <h2 className="text-4xl font-black tracking-tight text-[#0E1E45] sm:text-4xl">
-            Contact Us
+            Contact <span style={{ color: "#E0173C" }}> Us </span>
           </h2>
+
+            {/* <h2
+            className={`text-4xl font-black tracking-tight sm:text-4xl ${centered ? "text-[#0E1E45]" : "text-gray-800"}`}
+          >
+            Our Impact <span style={{ color: "#E0173C" }}>Overview</span>
+          </h2> */}
         </div>
 
         {/* ── Main Contact Card ── */}

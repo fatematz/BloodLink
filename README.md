@@ -1,36 +1,97 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+BloodLink — Blood Donation Platform
 
-## Getting Started
+A full-stack blood donation platform that connects donors with people in need of blood. Built with Next.js, Express.js, and MongoDB.
 
-First, run the development server:
+ Live URL
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+ https://blood-link-chi-wine.vercel.app
+
+
+Purpose
+
+BloodLink aims to make blood donation simple, safe, and meaningful. The platform allows donors to register, find blood requests, and respond to urgent needs — while administrators and volunteers manage the entire process efficiently.
+
+Key Features
+
+- **Role-based Access Control** — Donor, Volunteer, and Admin roles with different permissions
+- **Blood Donation Requests** — Create, view, edit, and manage donation requests
+- **Donor Search** — Search for donors by blood group, district, and upazila
+- **Stripe Payment Integration** — Secure funding/donation via Stripe Checkout
+- **JWT Authentication** — Token-based authentication for all private API routes
+- **Admin Dashboard** — Manage users, donation requests, and view statistics
+- **Volunteer Dashboard** — View and update donation request statuses
+- **Responsive Design** — Fully responsive for mobile, tablet, and desktop
+- **Profile Management** — Update blood group, district, upazila
+- **Real-time Status Updates** — Track donation status (pending → inprogress → done/canceled)
+
+##   User Roles & Capabilities
+
+###  Donor
+- Can register and log in
+- Can view all pending blood donation requests
+- Can create new blood donation requests
+- Can edit and delete own donation requests
+- Can update donation status (inprogress → done / canceled)
+- Can view donation request details and confirm donation
+- Can search for donors by blood group, district, and upazila
+- Can make funding contributions via Stripe
+- Can update own profile (blood group, district, upazila)
+
+###  Volunteer
+- All donor capabilities
+- Can view and manage all blood donation requests
+- Can update donation status of any request
+- Cannot delete or edit others' donation requests
+
+### Admin
+- All volunteer capabilities
+- Can view, edit, and delete all donation requests
+- Can manage all users (block/unblock, change roles)
+- Can make any user a volunteer or admin
+- Can view statistics (total donors, total funding, total requests)
+- Can view all funding history
+
+##  Tech Stack
+
+### Frontend
+- **Next.js 15** — React framework with App Router
+- **Tailwind CSS** — Utility-first styling
+- **better-auth** — Authentication
+- **Stripe.js** — Payment integration
+- **Lucide React** — Icons
+- **React Toastify** — Toast notifications
+
+### Backend
+- **Express.js** — Node.js web framework
+- **MongoDB** — Database with MongoDB Atlas
+- **Mongoose / MongoDB Driver** — Database ORM
+- **jsonwebtoken (JWT)** — Token-based authentication
+- **dotenv** — Environment variable management
+- **cors** — Cross-origin resource sharing
+
+##  NPM Packages Used
+
+### Client Side
+```
+next
+react
+react-dom
+tailwindcss
+better-auth
+stripe
+@stripe/stripe-js
+lucide-react
+react-toastify
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Server Side
+```
+express
+cors
+dotenv
+mongodb
+jsonwebtoken
+stripe
+```
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.

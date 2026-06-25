@@ -20,13 +20,15 @@ const  Featured = async () => {
 
 
   return (
-    <section className="w-full bg-[#F4F6F9] py-16 px-4 md:px-0">
+    <section className="w-full bg-[#F4F6F9]  px-4 md:px-4 lg:px-0   md:px-0">
       <div className="max-w-7xl mx-auto">
 
-        <div className="text-center mb-10">
-          <h2 className="text-4xl font-black tracking-tight text-[#0E1E45] sm:text-4xl">
-            Every Drop Counts <br /> Discover Your Impact
+        <div className="text-center mb-10 md:mb-20">
+          <h2 className="text-4xl font-black  tracking-tight text-[#0E1E45] sm:text-4xl">
+            Every Drop <span style={{ color: "#E0173C" }}> Counts </span> <br /> Discover Your  <span style={{ color: "#E0173C" }}> Impact </span>
           </h2>
+
+         
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-6">

@@ -34,12 +34,14 @@ const DashboardSidebar = ({ role = "donor" }) => {
     volunteer: [
       { name: "Dashboard Home", href: "/dashboard/admin-home", icon: LayoutDashboard },
       { name: "Profile", href: "/dashboard/profile", icon: User },
+      { name: "Create Request", href: "/dashboard/createdonationrequest", icon: PlusCircle },
       { name: "All Donation Requests", href: "/dashboard/ManageDonationRequests", icon: GitPullRequest },
     ],
     admin: [
       { name: "Dashboard Home", href: "/dashboard/admin-home", icon: LayoutDashboard },
       { name: "Profile", href: "/dashboard/profile", icon: User },
       { name: "All Users", href: "/dashboard/all-users", icon: Users },
+       { name: "Create Request", href: "/dashboard/createdonationrequest", icon: PlusCircle },
       { name: "All Donation Requests", href: "/dashboard/ManageDonationRequests", icon: GitPullRequest },
     ],
   };

@@ -18,23 +18,35 @@ const ImpactOverview = ({ centered = true }) => {
   useEffect(() => {
     const fetchStats = async () => {
       try {
-       const [usersRes, fundsRes, requestsRes] = await Promise.all([
-  fetch("http://localhost:5000/api/users?role=donor&limit=1", {
-    headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-  }),
-  fetch("http://localhost:5000/api/funds", { cache: "no-store" }),
-  fetch("http://localhost:5000/api/donation-requests?limit=1", {
-    headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-  }),
-]);
+        const [usersRes, fundsRes, requestsRes] = await Promise.all([
+          fetch(
+            "https://blood-link-server-phi.vercel.app/api/users?role=donor&limit=1",
+            {
+              headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+              },
+            },
+          ),
+          fetch("https://blood-link-server-phi.vercel.app/api/funds", {
+            cache: "no-store",
+          }),
+          fetch(
+            "https://blood-link-server-phi.vercel.app/api/donation-requests?limit=1",
+            {
+              headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+              },
+            },
+          ),
+        ]);
 
-        const usersData    = await usersRes.json();
-        const fundsData    = await fundsRes.json();
+        const usersData = await usersRes.json();
+        const fundsData = await fundsRes.json();
         const requestsData = await requestsRes.json();
 
         setStats({
-          donors:   usersData.total            || 0,
-          funding:  fundsData.total            || 0,
+          donors: usersData.total || 0,
+          funding: fundsData.total || 0,
           requests: requestsData.totalRequests || 0,
         });
       } catch (err) {
@@ -81,14 +93,15 @@ const ImpactOverview = ({ centered = true }) => {
   ];
 
   return (
-    <section className="w-full bg-[#F4F6F9]">
-      <div className="max-w-7xl mx-auto py-14 px-4 md:px-0">
-
-        <div className={`mb-10 ${centered ? "text-center" : "text-left"}`}>
- <h2 className={`text-4xl font-black tracking-tight sm:text-4xl ${centered ? "text-[#0E1E45]" : "text-gray-800"}`}>
-  Our Impact <span style={{ color: "#E0173C" }}>Overview</span>
-</h2>
-</div>
+    <section className="w-full bg-[#F4F6F9] pb-10 md:pb-10 lg:pb-30 pt-5 md:pt-0 md:pt-10 md:px-4 lg:pt-10">
+      <div className="max-w-7xl mx-auto  px-4 md:px-0">
+        <div className={`pt-10 md:pt-30 mb-10 md:mb-20  ${centered ? "text-center" : "text-left"}`}>
+          <h2
+            className={`text-4xl font-black tracking-tight sm:text-4xl ${centered ? "text-[#0E1E45]" : "text-gray-800"}`}
+          >
+            Our Impact <span style={{ color: "#E0173C" }}>Overview</span>
+          </h2>
+        </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {cards.map((card) => {
@@ -129,8 +142,6 @@ const ImpactOverview = ({ centered = true }) => {
                 >
                   {card.caption}
                 </p>
-
-               
               </div>
             );
           })}

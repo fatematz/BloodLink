@@ -42,7 +42,7 @@ const Navbar = () => {
 
   return (
     <div className="bg-[#F4F6F9]">
-      <header className="w-full top-5 left-0 right-0 z-50 fixed py-4">
+      <header className="w-full top-0 lg:top-5 left-0 right-0 z-50 fixed py-4 px-4 md:px-4 lg:px-0">
         <nav className="max-w-7xl mx-auto bg-white/80 backdrop-blur-md rounded-2xl shadow-sm border border-gray-100 px-4 sm:px-6 h-16 flex items-center justify-between">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2 shrink-0 select-none">
@@ -53,7 +53,6 @@ const Navbar = () => {
             <span className="text-[19px] font-extrabold tracking-tight" style={{ color: RED_DARK }}>BloodLink</span>
           </Link>
 
-          {/* Desktop: Links + Auth — lg (1024px+) এ দেখাবে */}
           <ul className="hidden lg:flex items-center gap-2 ml-6 flex-1">
             {links.map((l) => (
               <li key={l.label}>

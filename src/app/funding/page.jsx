@@ -31,7 +31,9 @@ export default function FundingPage() {
 
   const fetchFunds = async () => {
     try {
-      const res = await fetch("http://localhost:5000/api/funds");
+      const res = await fetch("https://blood-link-server-phi.vercel.app/api/funds", {
+      headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
+    });
       const data = await res.json();
       setFunds(data.funds || []);
       setTotal(data.total || 0);

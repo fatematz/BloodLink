@@ -50,7 +50,7 @@ const Footer = () => {
       {/* top red strip */}
       <div style={{ background: `linear-gradient(90deg, ${RED}, ${RED_DARK})` }} className="h-1.5 w-full" />
 
-      <div className="max-w-7xl mx-auto px-4 md:px-0 py-14">
+      <div className="max-w-7xl mx-auto px-4 md:px-4 lg:px-0 md:pt-10  py-14">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10">
           {/* brand + about */}
           <div className="lg:col-span-2">
@@ -61,7 +61,7 @@ const Footer = () => {
               >
                 <Droplet size={20} className="text-white" fill="white" strokeWidth={1.5} />
               </span>
-              <span className="text-[20px] font-extrabold tracking-tight text-white">BloodLink</span>
+              <span className="text-[20px] font-extrabold tracking-tight text-[#C20E32]">BloodLink</span>
             </Link>
             <p className="text-[14px] text-gray-400 leading-relaxed max-w-xs">
               Connecting blood donors with people in need. Every drop counts — join our community

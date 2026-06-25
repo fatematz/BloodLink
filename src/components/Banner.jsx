@@ -14,7 +14,7 @@ const Banner = async () => {
   const user = await userinfo();
 
   return (
-    <section className="w-full  pt-20 md:pt-44 pb-6 bg-[#F4F6F9]">
+      <section className="w-full pt-30 md:pt-40 lg:pt-55 md:pt-10 px-4 md:px-4 lg:px-0 bg-[#F4F6F9]">
       <div
         className="relative max-w-7xl mx-auto rounded-3xl overflow-hidden"
         style={{
