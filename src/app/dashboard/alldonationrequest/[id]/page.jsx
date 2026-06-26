@@ -32,12 +32,9 @@ export default function DonationDetailsPage() {
 
   useEffect(() => {
     const token = localStorage.getItem("token");
-    fetch(
-      `https://blood-link-server-phi.vercel.app/api/donation-requests/${id}`,
-      {
-        headers: { Authorization: `Bearer ${token}` },
-      },
-    )
+    fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/donation-requests/${id}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
       .then((r) => r.json())
       .then((data) => setRequest(data))
       .catch(console.error)
@@ -66,7 +63,7 @@ export default function DonationDetailsPage() {
     setDonating(true);
     try {
       const res = await fetch(
-        `https://blood-link-server-phi.vercel.app/api/donation-requests/${id}`,
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/donation-requests/${id}`,
         {
           method: "PATCH",
           headers: {

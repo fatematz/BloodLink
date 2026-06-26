@@ -81,7 +81,7 @@ export default function ManageDonationRequests() {
       const email = session?.data?.user?.email;
       if (!email) return;
       const res = await fetch(
-        `https://blood-link-server-phi.vercel.app/api/users/email/${email}`,
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/users/email/${email}`,
       );
       const userData = await res.json();
       setUserRole(userData?.role || "volunteer");
@@ -94,7 +94,7 @@ export default function ManageDonationRequests() {
       setLoading(true);
       try {
         const res = await fetch(
-          `https://blood-link-server-phi.vercel.app/api/donation-requests?status=${status}&page=${page}&limit=9`,
+          `${process.env.NEXT_PUBLIC_BASE_URL}/api/donation-requests?status=${status}&page=${page}&limit=9`,
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -116,7 +116,7 @@ export default function ManageDonationRequests() {
   const handleDelete = async (id) => {
     try {
       const res = await fetch(
-        `https://blood-link-server-phi.vercel.app/api/donation-requests/${id}`,
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/donation-requests/${id}`,
         {
           method: "DELETE",
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
@@ -136,7 +136,7 @@ export default function ManageDonationRequests() {
   const handleStatusUpdate = async (id, newStatus) => {
     try {
       const res = await fetch(
-        `https://blood-link-server-phi.vercel.app/api/donation-requests/${id}`,
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/donation-requests/${id}`,
         {
           method: "PATCH",
           headers: {

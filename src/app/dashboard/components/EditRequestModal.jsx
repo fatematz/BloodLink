@@ -15,7 +15,7 @@ export default function EditRequestModal({ request, isOpen, onClose }) {
     setSaving(true);
     try {
       const res = await fetch(
-        `https://blood-link-server-phi.vercel.app/api/donation-requests/edit/${request._id}`,
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/donation-requests/edit/${request._id}`,
         {
           method: "PATCH",
           headers: {

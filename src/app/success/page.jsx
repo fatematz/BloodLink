@@ -37,7 +37,7 @@ function SuccessContent() {
         const token = localStorage.getItem("token");
 
         const saveRes = await fetch(
-          "https://blood-link-server-phi.vercel.app/api/funds",
+          `${process.env.NEXT_PUBLIC_BASE_URL}/api/funds`,
           {
             method: "POST",
             headers: {

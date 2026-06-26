@@ -61,13 +61,13 @@ export default function SearchDonorsPage() {
     setLoading(true);
     try {
       const res = await fetch(
-        `https://blood-link-server-phi.vercel.app/api/users?role=donor&status=active&bloodGroup=${encodeURIComponent(bloodGroup)}&district=${encodeURIComponent(district)}&upazila=${encodeURIComponent(upazila)}&page=${pageNum}&limit=6`,
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/users?role=donor&status=active&bloodGroup=${encodeURIComponent(bloodGroup)}&district=${encodeURIComponent(district)}&upazila=${encodeURIComponent(upazila)}&page=${pageNum}&limit=6`,
         {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
         },
       );
       const data = await res.json();
-setDonors(Array.isArray(data.users) ? data.users : []);
+      setDonors(Array.isArray(data.users) ? data.users : []);
       setTotalPages(data.totalPages || 1);
     } catch (err) {
       console.error(err);

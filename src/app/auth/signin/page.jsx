@@ -51,7 +51,7 @@ const Signin = () => {
       } else if (data) {
         try {
           const tokenRes = await fetch(
-            "https://blood-link-server-phi.vercel.app/api/auth/jwt",
+            `${process.env.NEXT_PUBLIC_BASE_URL}/api/auth/jwt`,
             {
               method: "POST",
               headers: { "Content-Type": "application/json" },

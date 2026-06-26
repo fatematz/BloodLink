@@ -88,7 +88,7 @@ export default function MyDonationRequestsPage() {
           return;
         }
         const res = await fetch(
-          `https://blood-link-server-phi.vercel.app/api/donation-requests?requesterEmail=${userData.email}&status=${status}&page=${page}&limit=3`,
+          `${process.env.NEXT_PUBLIC_BASE_URL}/api/donation-requests?requesterEmail=${userData.email}&status=${status}&page=${page}&limit=3`,
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -116,7 +116,7 @@ export default function MyDonationRequestsPage() {
     if (isBlocked) return toast.error("You are blocked!");
     try {
       const res = await fetch(
-        `https://blood-link-server-phi.vercel.app/api/donation-requests/${id}`,
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/donation-requests/${id}`,
         {
           method: "DELETE",
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
@@ -136,7 +136,7 @@ export default function MyDonationRequestsPage() {
   const handleStatusUpdate = async (id, newStatus) => {
     try {
       const res = await fetch(
-        `https://blood-link-server-phi.vercel.app/api/donation-requests/${id}`,
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/donation-requests/${id}`,
         {
           method: "PATCH",
           headers: {

@@ -65,7 +65,7 @@ export default function DashboardHome() {
         setUser(userData);
 
         const res = await fetch(
-          `https://blood-link-server-phi.vercel.app/api/donation-requests?requesterEmail=${userData.email}&limit=3`,
+          `${process.env.NEXT_PUBLIC_BASE_URL}/api/donation-requests?requesterEmail=${userData.email}&limit=3`,
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -90,7 +90,7 @@ export default function DashboardHome() {
   const handleStatusUpdate = async (id, newStatus) => {
     try {
       const res = await fetch(
-        `https://blood-link-server-phi.vercel.app/api/donation-requests/${id}`,
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/donation-requests/${id}`,
         {
           method: "PATCH",
           headers: {
@@ -115,11 +115,10 @@ export default function DashboardHome() {
     }
   };
 
-
   const handleDelete = async (id) => {
     try {
       const res = await fetch(
-        `https://blood-link-server-phi.vercel.app/api/donation-requests/${id}`,
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/donation-requests/${id}`,
         {
           method: "DELETE",
           headers: { Authorization: `Bearer ${getToken()}` },
@@ -300,13 +299,14 @@ export default function DashboardHome() {
           </p>
 
           {!isBlocked && (
-  <Link href="/dashboard/create-donation-request"
-    className="mt-4 text-[13px] font-semibold transition hover:underline"
-    style={{ color: RED }}>
-    Create your first request +
-  </Link>
-)}
-
+            <Link
+              href="/dashboard/create-donation-request"
+              className="mt-4 text-[13px] font-semibold transition hover:underline"
+              style={{ color: RED }}
+            >
+              Create your first request +
+            </Link>
+          )}
         </div>
       )}
     </div>

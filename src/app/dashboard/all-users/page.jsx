@@ -12,7 +12,7 @@ async function updateUserAction(userId, formData) {
   if (formData.has("role")) updateData.role = formData.get("role");
 
   await fetch(
-    `https://blood-link-server-phi.vercel.app/api/users/update/${userId}`,
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/users/update/${userId}`,
     {
       method: "PATCH",
       headers: {
@@ -211,7 +211,7 @@ export default async function AllUsersPage({ searchParams }) {
   const token = cookieStore.get("bloodlink_token")?.value;
 
   const res = await fetch(
-    `https://blood-link-server-phi.vercel.app/api/users?page=${page}&limit=${limit}`,
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/users?page=${page}&limit=${limit}`,
     {
       headers: { Authorization: `Bearer ${token}` },
       cache: "no-store",

@@ -20,9 +20,8 @@ const Footer = () => {
       title: "Quick Links",
       links: [
         { label: "Home", href: "/" },
-        { label: "Donation Requests", href: "/donation-requests" },
+        { label: "Donation Requests", href: "/alldonationrequest" },
         { label: "Search Donors", href: "/search-donors" },
-        { label: "Blog", href: "/blog" },
       ],
     },
     {
@@ -30,17 +29,14 @@ const Footer = () => {
       links: [
         { label: "Join as a Donor", href: "/auth/signup" },
         { label: "Funding", href: "/funding" },
-        { label: "Volunteer", href: "/volunteer" },
         { label: "Login", href: "/auth/signin" },
       ],
     },
     {
       title: "Support",
       links: [
-        { label: "Contact Us", href: "/contact" },
-        { label: "FAQ", href: "/faq" },
-        { label: "Privacy Policy", href: "/privacy" },
-        { label: "Terms of Use", href: "/terms" },
+        { label: "Contact Us", href: "/" },
+
       ],
     },
   ];
@@ -107,7 +103,7 @@ const Footer = () => {
             {[Facebook, Instagram, Twitter, Youtube].map((Icon, i) => (
               <a
                 key={i}
-                href="#"
+                
                 className="w-9 h-9 rounded-full flex items-center justify-center transition hover:bg-white/20"
                 style={{ background: "rgba(255,255,255,0.10)" }}
                 aria-label="social link"

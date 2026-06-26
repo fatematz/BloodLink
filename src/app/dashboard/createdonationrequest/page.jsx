@@ -76,7 +76,7 @@ export default function CreateDonationRequest() {
     const token = localStorage.getItem("token");
     try {
       const response = await fetch(
-        "https://blood-link-server-phi.vercel.app/api/donation-requests",
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/donation-requests`,
         {
           method: "POST",
           headers: {

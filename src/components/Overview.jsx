@@ -20,18 +20,18 @@ const ImpactOverview = ({ centered = true }) => {
       try {
         const [usersRes, fundsRes, requestsRes] = await Promise.all([
           fetch(
-            "https://blood-link-server-phi.vercel.app/api/users?role=donor&limit=1",
+            `${process.env.NEXT_PUBLIC_BASE_URL}/api/users?role=donor&limit=1`,
             {
               headers: {
                 Authorization: `Bearer ${localStorage.getItem("token")}`,
               },
             },
           ),
-          fetch("https://blood-link-server-phi.vercel.app/api/funds", {
+          fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/funds/total`, {
             cache: "no-store",
           }),
           fetch(
-            "https://blood-link-server-phi.vercel.app/api/donation-requests?limit=1",
+            `${process.env.NEXT_PUBLIC_BASE_URL}/api/donation-requests?limit=1`,
             {
               headers: {
                 Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -95,7 +95,9 @@ const ImpactOverview = ({ centered = true }) => {
   return (
     <section className="w-full bg-[#F4F6F9] pb-10 md:pb-10 lg:pb-30 pt-5 md:pt-0 md:pt-10 md:px-4 lg:pt-10">
       <div className="max-w-7xl mx-auto  px-4 md:px-0">
-        <div className={`pt-10 md:pt-30 mb-10 md:mb-20  ${centered ? "text-center" : "text-left"}`}>
+        <div
+          className={`pt-10 md:pt-30 mb-10 md:mb-20  ${centered ? "text-center" : "text-left"}`}
+        >
           <h2
             className={`text-4xl font-black tracking-tight sm:text-4xl ${centered ? "text-[#0E1E45]" : "text-gray-800"}`}
           >

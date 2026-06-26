@@ -37,7 +37,7 @@ export default function ProfilePage() {
     const getUser = async () => {
       try {
         const res = await fetch(
-          `https://blood-link-server-phi.vercel.app/api/users/email/${session.user.email}`,
+          `${process.env.NEXT_PUBLIC_BASE_URL}/api/users/email/${session.user.email}`,
         );
         if (!res.ok) throw new Error("User not found");
         const data = await res.json();
@@ -60,7 +60,7 @@ export default function ProfilePage() {
     setSaving(true);
     try {
       const res = await fetch(
-        `https://blood-link-server-phi.vercel.app/api/users/update-profile/${user._id}`,
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/users/update-profile/${user._id}`,
         {
           method: "PATCH",
           headers: {

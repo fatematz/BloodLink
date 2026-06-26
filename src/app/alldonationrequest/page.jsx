@@ -58,7 +58,7 @@ export default function AllDonationRequest() {
   useEffect(() => {
     setLoading(true);
     fetch(
-      `https://blood-link-server-phi.vercel.app/api/donation-requests?status=pending&page=${page}&limit=5`,
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/donation-requests?status=pending&page=${page}&limit=5`,
       {
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
       },
@@ -100,7 +100,6 @@ export default function AllDonationRequest() {
         <h1 className="text-[32px] sm:text-[42px] font-black text-white tracking-tight">
           Donation <span style={{ color: "#FFD6DE" }}>Requests</span>
         </h1>
-       
       </div>
 
       <svg
