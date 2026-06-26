@@ -115,6 +115,7 @@ export default function DashboardHome() {
     }
   };
 
+
   const handleDelete = async (id) => {
     try {
       const res = await fetch(
@@ -142,6 +143,7 @@ export default function DashboardHome() {
       </div>
     );
 
+  const isBlocked = user?.status === "block";
   const hasRequests = requests.length > 0;
 
   return (
@@ -239,35 +241,38 @@ export default function DashboardHome() {
                       <td className="p-4">
                         <StatusBadge status={request.donationStatus} />
                       </td>
+
                       <td className="p-4 text-right pr-6 space-x-1.5">
-                        {request.donationStatus === "inprogress" && (
-                          <div className="inline-flex gap-1 mr-2">
-                            <button
-                              onClick={() =>
-                                handleStatusUpdate(request._id, "done")
-                              }
-                              className="text-[11px] font-medium bg-green-600 text-white px-2 py-1 rounded hover:bg-green-700 transition"
-                            >
-                              Done
-                            </button>
-                            <button
-                              onClick={() =>
-                                handleStatusUpdate(request._id, "canceled")
-                              }
-                              className="text-[11px] font-medium bg-gray-500 text-white px-2 py-1 rounded hover:bg-gray-600 transition"
-                            >
-                              Cancel
-                            </button>
-                          </div>
+                        {!isBlocked &&
+                          request.donationStatus === "inprogress" && (
+                            <div className="inline-flex gap-1 mr-2">
+                              <button
+                                onClick={() =>
+                                  handleStatusUpdate(request._id, "done")
+                                }
+                                className="text-[11px] font-medium bg-green-600 text-white px-2 py-1 rounded hover:bg-green-700 transition"
+                              >
+                                Done
+                              </button>
+                              <button
+                                onClick={() =>
+                                  handleStatusUpdate(request._id, "canceled")
+                                }
+                                className="text-[11px] font-medium bg-gray-500 text-white px-2 py-1 rounded hover:bg-gray-600 transition"
+                              >
+                                Cancel
+                              </button>
+                            </div>
+                          )}
+                        {!isBlocked && <EditButton request={request} />}
+                        {!isBlocked && (
+                          <button
+                            onClick={() => handleDelete(request._id)}
+                            className="p-1.5 text-gray-400 hover:text-red-600 rounded-md hover:bg-red-50 transition"
+                          >
+                            <Trash2 size={16} />
+                          </button>
                         )}
-                        <EditButton request={request} />
-                        <button
-                          onClick={() => handleDelete(request._id)}
-                          className="p-1.5 text-gray-400 hover:text-red-600 rounded-md hover:bg-red-50 transition"
-                          title="Delete Request"
-                        >
-                          <Trash2 size={16} />
-                        </button>
                       </td>
                     </tr>
                   ))}
@@ -293,13 +298,15 @@ export default function DashboardHome() {
           <p className="text-gray-400 text-[15px] font-medium">
             No Recent Requests
           </p>
-          <Link
-            href="/dashboard/create-donation-request"
-            className="mt-4 text-[13px] font-semibold transition hover:underline"
-            style={{ color: RED }}
-          >
-            Create your first request +
-          </Link>
+
+          {!isBlocked && (
+  <Link href="/dashboard/create-donation-request"
+    className="mt-4 text-[13px] font-semibold transition hover:underline"
+    style={{ color: RED }}>
+    Create your first request +
+  </Link>
+)}
+
         </div>
       )}
     </div>

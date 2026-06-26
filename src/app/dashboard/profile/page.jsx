@@ -91,7 +91,7 @@ export default function ProfilePage() {
       </div>
     );
 
-  const isBlocked = user?.status === "blocked";
+  const isBlocked = user?.status === "block";
   const districts = Object.keys(LOCATIONS);
 
   return (
@@ -164,7 +164,7 @@ export default function ProfilePage() {
                 <span
                   className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider ${isBlocked ? "bg-red-50 text-red-500" : "bg-emerald-50 text-emerald-600"}`}
                 >
-                  ● {isBlocked ? "Blocked" : "Active"}
+                  ● {isBlocked ? "Block" : "Active"}
                 </span>
                 <span className="px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-blue-50 text-blue-600">
                   {user?.role}

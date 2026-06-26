@@ -107,7 +107,7 @@ export default function CreateDonationRequest() {
       </div>
     );
 
-  if (user?.status === "blocked")
+  if (user?.status === "block")
     return (
       <div className="max-w-2xl mx-auto mt-14 p-6 bg-red-50 border border-red-200 rounded-3xl flex flex-col items-center text-center shadow-md">
         <AlertTriangle size={48} className="mb-3" style={{ color: RED }} />

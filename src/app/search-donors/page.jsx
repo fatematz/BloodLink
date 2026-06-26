@@ -67,7 +67,7 @@ export default function SearchDonorsPage() {
         },
       );
       const data = await res.json();
-      setDonors(data.users || data || []);
+setDonors(Array.isArray(data.users) ? data.users : []);
       setTotalPages(data.totalPages || 1);
     } catch (err) {
       console.error(err);

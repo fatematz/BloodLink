@@ -110,7 +110,7 @@ export default function MyDonationRequestsPage() {
     loadData();
   }, [status, page]);
 
-  const isBlocked = user?.status === "blocked";
+  const isBlocked = user?.status === "block";
 
   const handleDelete = async (id) => {
     if (isBlocked) return toast.error("You are blocked!");

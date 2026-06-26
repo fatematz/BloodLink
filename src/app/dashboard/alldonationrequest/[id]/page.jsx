@@ -48,7 +48,7 @@ export default function DonationDetailsPage() {
     });
   }, [id]);
 
-  const isBlocked = user?.status === "blocked";
+  const isBlocked = user?.status === "block";
 
   const handleDonateClick = () => {
     if (!user) {

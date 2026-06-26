@@ -100,10 +100,7 @@ export default function AllDonationRequest() {
         <h1 className="text-[32px] sm:text-[42px] font-black text-white tracking-tight">
           Donation <span style={{ color: "#FFD6DE" }}>Requests</span>
         </h1>
-        <p className="text-white/80 mt-2 text-[15px] max-w-md mx-auto">
-          Your donation can save a life. Browse pending requests below and find
-          urgent needs matching your blood group.
-        </p>
+       
       </div>
 
       <svg
