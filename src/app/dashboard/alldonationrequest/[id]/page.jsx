@@ -16,6 +16,7 @@ import {
 } from "lucide-react";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { ensureToken } from "@/lib/ensure-token";
 
 const RED = "#E0173C";
 const RED_DARK = "#C20E32";
@@ -31,19 +32,33 @@ export default function DonationDetailsPage() {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/donation-requests/${id}`, {
-      headers: { Authorization: `Bearer ${token}` },
-    })
-      .then((r) => r.json())
-      .then((data) => setRequest(data))
-      .catch(console.error)
-      .finally(() => setLoading(false));
+    async function load() {
+      const session = await authClient.getSession();
 
-    authClient.getSession().then((session) => {
-      if (session?.data?.user) setUser(session.data.user);
-    });
-  }, [id]);
+      if (!session?.data?.user) {
+        router.push(`/auth/signin?redirect=/dashboard/alldonationrequest/${id}`);
+        return;
+      }
+
+      setUser(session.data.user);
+      await ensureToken(session.data.user.email);
+
+      const token = localStorage.getItem("token");
+      try {
+        const r = await fetch(
+          `${process.env.NEXT_PUBLIC_BASE_URL}/api/donation-requests/${id}`,
+          { headers: { Authorization: `Bearer ${token}` } },
+        );
+        const data = await r.json();
+        setRequest(data);
+      } catch (e) {
+        console.error(e);
+      } finally {
+        setLoading(false);
+      }
+    }
+    load();
+  }, [id, router]);
 
   const isBlocked = user?.status === "block";
 

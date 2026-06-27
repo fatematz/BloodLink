@@ -16,6 +16,8 @@ const Navbar = () => {
   const pathname = usePathname();
 
   const handleSignOut = async () => {
+    localStorage.removeItem("token");
+    document.cookie = "bloodlink_token=; path=/; max-age=0";
     await authClient.signOut({ fetchOptions: { onSuccess: () => { window.location.href = "/"; } } });
   };
 

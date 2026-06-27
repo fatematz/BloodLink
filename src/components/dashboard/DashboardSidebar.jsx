@@ -17,6 +17,8 @@ const DashboardSidebar = ({ role = "donor" }) => {
 
   const logout = async () => {
     try {
+      localStorage.removeItem("token");
+      document.cookie = "bloodlink_token=; path=/; max-age=0";
       await authClient.signOut();
       router.push("/auth/signin");
     } catch (e) {

@@ -5,6 +5,7 @@ import { useSearchParams, useRouter } from "next/navigation";
 import { CheckCircle, Loader2 } from "lucide-react";
 import Navbar from "../homepage/navbar";
 import Footer from "@/components/Footer";
+import { ensureToken } from "@/lib/ensure-token";
 
 const RED = "#E0173C";
 const RED_DARK = "#C20E32";
@@ -34,6 +35,7 @@ function SuccessContent() {
           throw new Error(verifyData.error || "Payment verification failed");
 
         const { userName, userEmail, amount, stripeTransactionId } = verifyData;
+        await ensureToken(userEmail);
         const token = localStorage.getItem("token");
 
         const saveRes = await fetch(

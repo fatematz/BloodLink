@@ -14,6 +14,7 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Link from "next/link";
 import LOCATIONS from "@/lib/locations";
+import { ensureToken } from "@/lib/ensure-token";
 const districts = Object.keys(LOCATIONS);
 const upazilas = LOCATIONS;
 
@@ -43,6 +44,7 @@ export default function CreateDonationRequest() {
       const session = await authClient.getSession();
       if (session?.data?.user) {
         setUser(session.data.user);
+        await ensureToken(session.data.user.email);
       } else {
         router.push("/auth/signin");
       }

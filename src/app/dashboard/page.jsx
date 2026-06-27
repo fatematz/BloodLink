@@ -15,6 +15,7 @@ import {
   Loader2,
 } from "lucide-react";
 import EditButton from "./components/EditButton";
+import { ensureToken } from "@/lib/ensure-token";
 
 const RED = "#E0173C";
 
@@ -63,6 +64,7 @@ export default function DashboardHome() {
         }
 
         setUser(userData);
+        await ensureToken(userData.email);
 
         const res = await fetch(
           `${process.env.NEXT_PUBLIC_BASE_URL}/api/donation-requests?requesterEmail=${userData.email}&limit=3`,
@@ -300,7 +302,7 @@ export default function DashboardHome() {
 
           {!isBlocked && (
             <Link
-              href="/dashboard/create-donation-request"
+              href="/dashboard/createdonationrequest"
               className="mt-4 text-[13px] font-semibold transition hover:underline"
               style={{ color: RED }}
             >

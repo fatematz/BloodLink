@@ -217,7 +217,7 @@ export default function ProfilePage() {
                     <Icon size={15} />
                     <span className="text-[13px] font-medium">{label}</span>
                   </div>
-                  <span className="text-[13px] font-semibold text-gray-700 capitalize">
+                  <span className="text-[13px] font-semibold text-gray-700 ">
                     {value}
                   </span>
                 </div>

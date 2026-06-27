@@ -15,7 +15,7 @@ export default async function AdminHomePage() {
           <h1 className="text-[22px] font-black text-gray-800 tracking-tight">
             Welcome back, <span style={{ color: "#E0173C" }}>{user?.name || "Admin"}</span>!
           </h1>
-          <p className="text-gray-400 text-[13px] mt-0.5 capitalize">{user?.role || "admin"} · {user?.email}</p>
+          <p className="text-gray-400 text-[13px] mt-0.5 ">{user?.role || "admin"} · {user?.email}</p>
         </div>
       </div>
       <Overview centered={false} />

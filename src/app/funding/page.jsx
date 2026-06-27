@@ -7,6 +7,7 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { CreditCard, Calendar, Hash } from "lucide-react";
 import Footer from "@/components/Footer";
+import { ensureToken } from "@/lib/ensure-token";
 
 const RED = "#E0173C";
 const RED_DARK = "#C20E32";
@@ -65,10 +66,14 @@ export default function FundingPage() {
   useEffect(() => {
     const init = async () => {
       const session = await authClient.getSession();
-      setUser(session?.data?.user);
+      const sessionUser = session?.data?.user;
+      setUser(sessionUser);
+      if (sessionUser?.email) {
+        await ensureToken(sessionUser.email);
+      }
+      fetchFunds();
     };
     init();
-    fetchFunds();
   }, []);
 
   const fetchFunds = async () => {
