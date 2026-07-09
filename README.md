@@ -1,10 +1,12 @@
-BloodLink — Blood Donation Platform
+# BloodLink — Blood Donation Platform
+
+ Live URL:
+ https://blood-link-chi-wine.vercel.app
+
+<img width="1919" height="903" alt="Screenshot 2026-07-09 141727" src="https://github.com/user-attachments/assets/b75f944d-b078-44fd-9fcd-5076450ecce2" />
 
 A full-stack blood donation platform that connects donors with people in need of blood. Built with Next.js, Express.js, and MongoDB.
 
- Live URL
-
- https://blood-link-chi-wine.vercel.app
 
 
 Purpose
