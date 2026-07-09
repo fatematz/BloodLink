@@ -93,6 +93,17 @@ dotenv
 mongodb
 jsonwebtoken
 stripe
+
 ```
 
+## Getting Started
+
+### 1. Clone the repository
+```bash
+git clone [https://github.com/fatematz/BloodLink.git](https://github.com/fatematz/BloodLink.git)
+cd BloodLink
+
+Install dependencies
+Bash
+npm install
 
